@@ -17,22 +17,11 @@ public class ProducerService {
 		this.partitioner = partitioner;
 	}
 
-	public ProduceResponse produce(String topicName, String key, String payload){
+	public long produce(String topicName, String key, String payload){
 		Topic topic = broker.getTopic(topicName);
 		int partitionId = partitioner.partition(topicName, topic.getNumPartitions());
 		Partition partition = topic.getPartition(partitionId);
 		long offset = partition.append(payload, key);
-		return new ProduceResponse(topicName, partitionId, offset);
-	}
-}
-
-class ProduceResponse {
-	public String topicName;
-	public int partitionId;
-	public long offset;
-	public ProduceResponse(String topicName, int partitionId, long offset){
-		this.topicName = topicName;
-		this.partitionId = partitionId;
-		this.offset = offset;
+		return offset;
 	}
 }
