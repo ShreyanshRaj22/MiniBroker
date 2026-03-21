@@ -12,14 +12,9 @@ public class TopicService {
 	}
 
 	public CreateTopicResponse createTopic(String topicName, int numPartitions){
-		 try {
 		 	broker.createTopic(topicName, numPartitions);
 			return (new CreateTopicResponse(topicName));
-		 } catch (Exception e) {
-			return (new CreateTopicResponse(null));
-		 }
 	}
-
 	public Topic getTopic(String topicName){
 		return broker.getTopic(topicName);
 	}

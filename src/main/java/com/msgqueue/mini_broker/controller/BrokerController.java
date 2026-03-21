@@ -33,7 +33,7 @@ public class BrokerController {
 	@PostMapping("/createTopic")
 	public String createTopic(@RequestBody CreateTopicRequest request){
 		broker.createTopic(request.getTopic(), request.getPartitions());
-		return "Topic Created: " + request.getTopic();
+		return "Topic Created: "+request.getTopic();
 	}
 
 	@PostMapping("/produceMessage")
