@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
+import com.msgqueue.mini_broker.exception.TopicAlreadyExistsException;
+import com.msgqueue.mini_broker.exception.TopicDoesNotExistsException;
 import com.msgqueue.mini_broker.model.Topic;
 
 @Component
@@ -13,7 +15,7 @@ public class Broker {
 
 	public void createTopic(String topicName, int numPartitions){
 		if(topics.containsKey(topicName)){
-			throw new RuntimeException("Topic already exists.");
+			throw new TopicAlreadyExistsException("Topic already exists.");
 		}
 
 		Topic topic = new Topic(topicName, numPartitions);
@@ -24,7 +26,7 @@ public class Broker {
 		Topic topic = topics.get(topicName);
 
 		if(topic == null){
-			throw new RuntimeException("Topic does not exist");
+			throw new TopicDoesNotExistsException("Topic does not exist");
 		}
 
 		return topic;
