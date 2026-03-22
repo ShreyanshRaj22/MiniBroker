@@ -1,6 +1,8 @@
 package com.msgqueue.mini_broker.broker;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
@@ -30,5 +32,9 @@ public class Broker {
 		}
 
 		return topic;
+	}
+
+	public List<Topic> getAllTopicsTest(){
+		return new ArrayList<>(topics.values());
 	}
 }

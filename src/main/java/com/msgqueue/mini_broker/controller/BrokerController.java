@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.msgqueue.mini_broker.dto.request.ConsumeMessageRequest;
 import com.msgqueue.mini_broker.dto.request.CreateTopicRequest;
 import com.msgqueue.mini_broker.dto.request.ProduceMessageRequest;
 import com.msgqueue.mini_broker.model.Message;
+import com.msgqueue.mini_broker.model.Topic;
 import com.msgqueue.mini_broker.service.ConsumerService;
 import com.msgqueue.mini_broker.service.ProducerService;
 
@@ -59,5 +61,10 @@ public class BrokerController {
 
 		List<Message> response = consumerService.consume(topicName, partition, offset, limit);
 		return response;
+	}
+
+	@GetMapping("/allTopics")
+	public List<Topic> getAllTopics(){
+		return broker.getAllTopicsTest();
 	}
 }
