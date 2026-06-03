@@ -22,12 +22,17 @@ public class ProducerService {
 
 	public long produce(String topicName, String key, String payload){
 
-		if(topicName == "" || topicName == null || payload == null || payload == ""){
+		if(topicName == null || topicName.isBlank() || payload == null || payload.isBlank()){
 			String errorMsg = "Invalid req: topicName: {"+topicName+"} payload: {"+payload+"}";
 			log.error(errorMsg);
 			throw new BadRequestException(errorMsg);
 		}
 		Topic topic = broker.getTopic(topicName);
+
+
+		if(topic == null){
+			log.error("Topic does not exist: {}", topicName);
+		}
 		int partitionId = partitioner.partition(topicName, topic.getNumPartitions());
 		Partition partition = topic.getPartition(partitionId);
 		long offset = partition.append(payload, key);

@@ -1,5 +1,6 @@
 package com.msgqueue.mini_broker.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,10 @@ public class Topic {
 
 	public Partition getPartition(int partitionId){
 		return partitions.get(partitionId);
+	}
+
+	public Collection<Partition> getPartitions(){
+		return partitions.values();
 	}
 
 	public int getNumPartitions() { return partitions.size(); }
