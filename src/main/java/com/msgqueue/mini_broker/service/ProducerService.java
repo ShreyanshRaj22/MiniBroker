@@ -31,9 +31,9 @@ public class ProducerService {
 
 
 		if(topic == null){
-			log.error("Topic does not exist: {}", topicName);
+			throw new BadRequestException("Topic does not exist: " + topicName);
 		}
-		int partitionId = partitioner.partition(topicName, topic.getNumPartitions());
+		int partitionId = partitioner.partition(key, topic.getNumPartitions());
 		Partition partition = topic.getPartition(partitionId);
 		long offset = partition.append(payload, key);
 
