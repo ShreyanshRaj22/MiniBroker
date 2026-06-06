@@ -14,6 +14,7 @@ import com.msgqueue.mini_broker.broker.Broker;
 import com.msgqueue.mini_broker.model.ConsumerGroup;
 import com.msgqueue.mini_broker.model.TopicPartition;
 
+
 public class GroupCoordinatorServiceTest {
 	Broker broker;
 	private GroupCoordinatorService coordinatorService;
@@ -92,5 +93,21 @@ public class GroupCoordinatorServiceTest {
 		assertEquals(FOUR_PARTITIONS, assigned.size());
 
 
+	}
+
+
+	@Test
+	void shouldCommitOffset() {
+
+		broker.createTopic(TOPIC_NAME, FOUR_PARTITIONS);
+
+		coordinatorService.registerConsumer(GROUP_1_ID, CONSUMER_1_ID, TOPIC_NAME);
+
+		TopicPartition tp = new TopicPartition(TOPIC_NAME, 0);
+
+		coordinatorService.commitOffsets(GROUP_1_ID, tp, 10L);
+		long offset = coordinatorService.getCommittedOffsets(GROUP_1_ID, tp);
+
+		assertEquals(offset, 10L);
 	}
 }
