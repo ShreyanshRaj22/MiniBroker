@@ -104,4 +104,8 @@ public class GroupCoordinatorService {
 	public Map<String, ConsumerGroup> getGroups(){
 		return groups;
 	}
+
+	public ConsumerGroup getGroup(String groupId){
+		return groups.get(groupId);
+	}
 }
