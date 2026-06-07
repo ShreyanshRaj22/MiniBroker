@@ -9,18 +9,12 @@ import com.msgqueue.mini_broker.broker.Broker;
 import com.msgqueue.mini_broker.partitioner.Partitioner;
 import com.msgqueue.mini_broker.partitioner.HashPartitioner;
 import com.msgqueue.mini_broker.dto.response.ProduceMessageResponse;
+import com.msgqueue.mini_broker.Constants;
 
 public class ProducerServiceTest {
 	private Broker broker;
 	private Partitioner partitioner;
 	private ProducerService producerService;
-
-
-	private final static String TOPIC_NAME = "orders";
-	private final static int THREE_PARTITIONS = 3;
-	private final static String KEY_STRING_1 = "key-1";
-	private final static String PAYLOAD_STRING_1 = "payload-message-string-1";
-	private final static String PAYLOAD_STRING_2 = "payload-message-string-2";
 
 	@BeforeEach
 	void setup(){
@@ -31,10 +25,10 @@ public class ProducerServiceTest {
 
 	@Test
 	void shouldProduceMessage(){
-		broker.createTopic(TOPIC_NAME, THREE_PARTITIONS);
+		broker.createTopic(Constants.TOPIC_NAME, Constants.THREE_PARTITIONS);
 
-		ProduceMessageResponse firstResponse = producerService.produce(TOPIC_NAME, KEY_STRING_1, PAYLOAD_STRING_1);
-		ProduceMessageResponse secondResponse = producerService.produce(TOPIC_NAME, KEY_STRING_1, PAYLOAD_STRING_2);
+		ProduceMessageResponse firstResponse = producerService.produce(Constants.TOPIC_NAME, Constants.KEY_1, Constants.PAYLOAD_STRING);
+		ProduceMessageResponse secondResponse = producerService.produce(Constants.TOPIC_NAME, Constants.KEY_1, Constants.PAYLOAD_STRING_2);
 
 		assertEquals(0, firstResponse.offset());
 		assertEquals(1, secondResponse.offset());
