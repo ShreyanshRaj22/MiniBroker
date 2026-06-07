@@ -8,6 +8,7 @@ import com.msgqueue.mini_broker.exception.BadRequestException;
 import com.msgqueue.mini_broker.partitioner.Partitioner;
 import com.msgqueue.mini_broker.model.Topic;
 import com.msgqueue.mini_broker.model.Partition;
+import com.msgqueue.mini_broker.dto.response.ProduceMessageResponse;
 
 @Service
 public class ProducerService {
@@ -20,7 +21,7 @@ public class ProducerService {
 		this.partitioner = partitioner;
 	}
 
-	public long produce(String topicName, String key, String payload){
+	public ProduceMessageResponse produce(String topicName, String key, String payload){
 
 		if(topicName == null || topicName.isBlank() || payload == null || payload.isBlank()){
 			String errorMsg = "Invalid req: topicName: {"+topicName+"} payload: {"+payload+"}";
@@ -38,6 +39,8 @@ public class ProducerService {
 		long offset = partition.append(payload, key);
 
 		log.info("Offset: {} topicName: {} payload: {}", offset, topicName, payload);
-		return offset;
+
+		ProduceMessageResponse response = new ProduceMessageResponse(offset, partitionId);
+		return response;
 	}
 }

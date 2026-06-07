@@ -18,6 +18,7 @@ import com.msgqueue.mini_broker.dto.request.PollRequest;
 import com.msgqueue.mini_broker.dto.request.ProduceMessageRequest;
 import com.msgqueue.mini_broker.dto.request.RegisterConsumerRequest;
 import com.msgqueue.mini_broker.dto.request.RemoveConsumerRequest;
+import com.msgqueue.mini_broker.dto.response.ProduceMessageResponse;
 import com.msgqueue.mini_broker.model.Message;
 import com.msgqueue.mini_broker.model.Topic;
 import com.msgqueue.mini_broker.service.ConsumerService;
@@ -51,10 +52,11 @@ public class BrokerController {
 		String key = request.getKey();
 		String payload = request.getPayload();
 
-		long offset = producerService.produce(topic, key, payload);
+		ProduceMessageResponse result = producerService.produce(topic, key, payload);
 
 		Map<String, Object> response = new HashMap<>();
-		response.put("offset", offset);
+		response.put("offset", result.offset());
+		response.put("partitionId", result.partitionId());
 
 		return response;
 	}
