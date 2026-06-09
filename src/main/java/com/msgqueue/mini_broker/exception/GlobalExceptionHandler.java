@@ -36,7 +36,15 @@ public class GlobalExceptionHandler {
 		return ResponseEntity
 			.status(400)
 			.body(new ErrorResponse(e.getMessage(), "BAD_REQUEST"));
-	} 
+	}
+
+	@ExceptionHandler(UnauthorisedException.class)
+	public ResponseEntity<ErrorResponse> handleException(UnauthorisedException e){
+		log.error("Unauthorised Request");
+		return ResponseEntity
+			.status(401)
+			.body(new ErrorResponse(e.getMessage(), "UNAUTHORIZED"));
+	}
 
 	@ExceptionHandler(Exception.class)
     	public ResponseEntity<ErrorResponse> handleException(Exception e) {
